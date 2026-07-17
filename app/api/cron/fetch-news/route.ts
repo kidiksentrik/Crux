@@ -158,8 +158,9 @@ export async function POST(request: Request) {
 
         // We save up to 3 articles (matching the daily settings max limit)
         if (articlesToSave.length >= 3) break;
-      } catch (itemErr) {
-        if (itemErr instanceof Error && itemErr.message.toLowerCase().includes('quota')) {
+      } catch (itemErr: unknown) {
+        const err = itemErr as { message?: string };
+        if (err?.message?.toLowerCase().includes('quota')) {
           throw itemErr;
         }
         console.error('Error processing news item, skipping to next:', itemErr);
@@ -184,9 +185,10 @@ export async function POST(request: Request) {
       message: `Fetched and saved ${savedCount} articles with pre-cached vocabulary.`,
       articles: articlesToSave,
     });
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Fetch news error:', error);
-    const message = error instanceof Error ? error.message : 'Internal Server Error';
+    const err = error as { message?: string };
+    const message = err?.message || String(error);
     const isQuota = message.toLowerCase().includes('quota') || message.includes('429');
     return NextResponse.json({ error: message }, { status: isQuota ? 429 : 500 });
   }
