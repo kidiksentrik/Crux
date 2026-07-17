@@ -190,8 +190,34 @@ export async function POST(request: Request) {
     const err = error as { message?: string };
     const message = err?.message || String(error);
     const isQuota = message.toLowerCase().includes('quota') || message.includes('429');
-    return NextResponse.json({ error: message }, { status: isQuota ? 429 : 500 });
+    
+    if (isQuota) {
+      return NextResponse.json({
+        error: message,
+        isQuota: true,
+        resetAt: getNextResetTime()
+      }, { status: 429 });
+    }
+    
+    return NextResponse.json({ error: message }, { status: 500 });
   }
+}
+
+function getNextResetTime(): string {
+  const now = new Date();
+  // Quota resets at 08:00 UTC (Midnight Pacific Time)
+  const resetToday = new Date(Date.UTC(
+    now.getUTCFullYear(),
+    now.getUTCMonth(),
+    now.getUTCDate(),
+    8, 0, 0, 0
+  ));
+  
+  if (now.getTime() >= resetToday.getTime()) {
+    // If we are past 08:00 UTC today, the next reset is 08:00 UTC tomorrow
+    return new Date(resetToday.getTime() + 24 * 60 * 60 * 1000).toISOString();
+  }
+  return resetToday.toISOString();
 }
 
 export async function GET(request: Request) {

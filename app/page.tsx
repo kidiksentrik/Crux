@@ -21,6 +21,8 @@ export default function FeedPage() {
   const [selectedWord, setSelectedWord] = useState<string>('');
   const [selectedContext, setSelectedContext] = useState<string>('');
   const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const [quotaExhaustedUntil, setQuotaExhaustedUntil] = useState<string | null>(null);
+  const [timeLeftStr, setTimeLeftStr] = useState('');
   
   // Settings loaded from localStorage
   const [targetLang, setTargetLang] = useState('PL');
@@ -32,14 +34,49 @@ export default function FeedPage() {
       const storedTarget = localStorage.getItem('crux_target_lang') || 'PL';
       const storedBase = localStorage.getItem('crux_base_lang') || 'EN';
       const storedLimit = localStorage.getItem('crux_daily_limit') || '1';
+      const storedQuota = localStorage.getItem('crux_quota_exhausted_until');
       
       setTimeout(() => {
         setTargetLang(storedTarget);
         setBaseLang(storedBase);
         setDailyLimit(parseInt(storedLimit));
+        if (storedQuota) {
+          if (new Date(storedQuota).getTime() > Date.now()) {
+            setQuotaExhaustedUntil(storedQuota);
+          } else {
+            localStorage.removeItem('crux_quota_exhausted_until');
+          }
+        }
       }, 0);
     }
   }, []);
+
+  useEffect(() => {
+    if (!quotaExhaustedUntil) return;
+
+    const updateTimer = () => {
+      const diff = new Date(quotaExhaustedUntil).getTime() - Date.now();
+      if (diff <= 0) {
+        setQuotaExhaustedUntil(null);
+        localStorage.removeItem('crux_quota_exhausted_until');
+        setTimeLeftStr('');
+      } else {
+        const hours = Math.floor(diff / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+        
+        const pad = (num: number) => String(num).padStart(2, '0');
+        setTimeLeftStr(`${pad(hours)}:${pad(minutes)}:${pad(seconds)}`);
+      }
+    };
+
+    const timer = setTimeout(updateTimer, 0);
+    const interval = setInterval(updateTimer, 1000);
+    return () => {
+      clearTimeout(timer);
+      clearInterval(interval);
+    };
+  }, [quotaExhaustedUntil]);
 
   const fetchArticles = async (tLang: string, limitVal: number) => {
     setLoading(true);
@@ -86,6 +123,10 @@ export default function FeedPage() {
         }
       } else {
         const errorData = await res.json().catch(() => ({}));
+        if (errorData.isQuota && errorData.resetAt) {
+          setQuotaExhaustedUntil(errorData.resetAt);
+          localStorage.setItem('crux_quota_exhausted_until', errorData.resetAt);
+        }
         alert(`Failed to fetch news: ${errorData.error || 'Server error'}`);
       }
     } catch (err) {
@@ -169,6 +210,26 @@ export default function FeedPage() {
           Read the crux of local news in 1 minute. Tap words to translate.
         </p>
       </div>
+
+      {quotaExhaustedUntil && timeLeftStr && (
+        <div className="bg-[#1C1625]/60 backdrop-blur-md border border-amber-500/20 rounded-2xl p-4 flex items-center justify-between shadow-xl animate-fade-in">
+          <div className="flex items-center gap-3">
+            <div className="p-2 rounded-xl bg-amber-500/10 text-amber-400">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+            </div>
+            <div className="flex flex-col gap-0.5">
+              <span className="text-xs font-bold text-amber-300">Gemini API Daily Quota Exceeded</span>
+              <span className="text-[10px] text-amber-200/60 font-medium">Please wait for the daily quota reset or try again later.</span>
+            </div>
+          </div>
+          <div className="flex flex-col items-end gap-0.5">
+            <span className="text-[9px] uppercase tracking-wider text-amber-200/50 font-bold">Resets In</span>
+            <span className="text-sm font-mono font-bold text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded-lg border border-amber-500/20">{timeLeftStr}</span>
+          </div>
+        </div>
+      )}
 
       {loading ? (
         /* Skeleton Card Loader */
