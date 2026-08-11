@@ -1,0 +1,152 @@
+[
+  {
+    "id": 1,
+    "word": "załatwić",
+    "base_form": "załatwiać / załatwić",
+    "category": "Official / Administrative",
+    "meaning_en": "to arrange, settle, deal with (official documents/matters)",
+    "example_pl": "Muszę dzisiaj załatwić formalności w urzędzie wojewódzkim.",
+    "example_en": "I need to settle the paperwork at the voivodeship office today.",
+    "synonyms": ["zorganizować", "rozwiązać", "dopilnować"]
+  },
+  {
+    "id": 2,
+    "word": "mimo że",
+    "base_form": "mimo że",
+    "category": "Grammar Connectors",
+    "meaning_en": "even though, although",
+    "example_pl": "Zdałem egzamin B1, mimo że pytania były bardzo trudne.",
+    "example_en": "I passed the B1 exam, even though the questions were very hard.",
+    "synonyms": ["chociaż", "jakkolwiek", "pomimo iż"]
+  },
+  {
+    "id": 3,
+    "word": "kupować",
+    "base_form": "kupować / kupić",
+    "category": "Verb Aspect Pairs",
+    "meaning_en": "to buy, purchase (Imperfective / Perfective)",
+    "example_pl": "Zazwyczaj kupuję warzywa na rynku, ale wczoraj kupiłem je w sklepie.",
+    "example_en": "I usually buy vegetables at the market, but yesterday I bought them in a shop.",
+    "synonyms": ["Nabywać", "Zamawiać", "Płacić"]
+  },
+  {
+    "id": 4,
+    "word": "wniosek",
+    "base_form": "wniosek",
+    "category": "Official / Administrative",
+    "meaning_en": "application form, formal request",
+    "example_pl": "Wypełniłem wniosek o kartę czasowego pobytu w Polsce.",
+    "example_en": "I filled out the application form for a temporary residence card in Poland.",
+    "synonyms": ["podanie", "formularz", "dokument"]
+  },
+  {
+    "id": 5,
+    "word": "dlatego że",
+    "base_form": "dlatego że",
+    "category": "Grammar Connectors",
+    "meaning_en": "because, due to the fact that",
+    "example_pl": "Nie poszedłem do pracy, dlatego że byłem przeziębiony.",
+    "example_en": "I didn't go to work because I had a cold.",
+    "synonyms": ["ponieważ", "bo", "z powodu"]
+  },
+  {
+    "id": 6,
+    "word": "urząd",
+    "base_form": "urząd",
+    "category": "Official / Administrative",
+    "meaning_en": "government office, municipal institution",
+    "example_pl": "Urząd do Spraw Cudzoziemców znajduje się w centrum miasta.",
+    "example_en": "The Office for Foreigners is located in the city center.",
+    "synonyms": ["instytucja", "placówka", "biuro"]
+  },
+  {
+    "id": 7,
+    "word": "robić",
+    "base_form": "robić / zrobić",
+    "category": "Verb Aspect Pairs",
+    "meaning_en": "to do, make (Imperfective / Perfective)",
+    "example_pl": "Co robisz dzisiaj wieczorem? Muszę zrobić zakupy.",
+    "example_en": "What are you doing tonight? I have to do the shopping.",
+    "synonyms": ["wykonywać", "tworzyć", "przygotowywać"]
+  },
+  {
+    "id": 8,
+    "word": "chociaż",
+    "base_form": "chociaż",
+    "category": "Grammar Connectors",
+    "meaning_en": "although, even if",
+    "example_pl": "Lubię mieszkać w Krakowie, chociaż zima bywa tutaj zimna.",
+    "example_en": "I like living in Krakow, although winter here can be cold.",
+    "synonyms": ["mimo że", "wprawdzie", "aczkolwiek"]
+  },
+  {
+    "id": 9,
+    "word": "decyzja",
+    "base_form": "decyzja",
+    "category": "Official / Administrative",
+    "meaning_en": "official decision, ruling",
+    "example_pl": "Czekam na pozytywną decyzję w sprawie mojego pobytu.",
+    "example_en": "I am waiting for a positive decision regarding my residence status.",
+    "synonyms": ["postanowienie", "orzeczenie", "rozstrzygnięcie"]
+  },
+  {
+    "id": 10,
+    "word": "pisać",
+    "base_form": "pisać / napisać",
+    "category": "Verb Aspect Pairs",
+    "meaning_en": "to write (Imperfective / Perfective)",
+    "example_pl": "Piszę e-mail do szefa, aczkolwiek napisałem już raport.",
+    "example_en": "I am writing an email to my boss, though I have already written the report.",
+    "synonyms": ["notować", "redagować", "sporządzać"]
+  },
+  {
+    "id": 11,
+    "word": "mieszkanie",
+    "base_form": "mieszkanie",
+    "category": "Daily Life & Home",
+    "meaning_en": "apartment, flat, residence",
+    "example_pl": "Wynajmuję dwupokojowe mieszkanie w dzielnicy Grzegórzki.",
+    "example_en": "I rent a two-room apartment in the Grzegórzki district.",
+    "synonyms": ["lokal", "dom", "kwatera"]
+  },
+  {
+    "id": 12,
+    "word": "stanowisko",
+    "base_form": "stanowisko",
+    "category": "Work & Education",
+    "meaning_en": "job position, post",
+    "example_pl": "Pracuję na stanowisku inżyniera oprogramowania.",
+    "example_en": "I work in the position of a software engineer.",
+    "synonyms": ["posada", "rola", "funkcja"]
+  },
+  {
+    "id": 13,
+    "word": "jednak",
+    "base_form": "jednak",
+    "category": "Grammar Connectors",
+    "meaning_en": "however, yet, nevertheless",
+    "example_pl": "Płynnie mówię po angielsku, jednak chcę opanować język polski na poziomie B1.",
+    "example_en": "I speak English fluently, however I want to master Polish at the B1 level.",
+    "synonyms": ["jednakże", "wzajemnie", "zresztą"]
+  },
+  {
+    "id": 14,
+    "word": "przystanek",
+    "base_form": "przystanek",
+    "category": "Travel & City",
+    "meaning_en": "bus/tram stop",
+    "example_pl": "Najbliższy przystanek tramwajowy znajduje się zaraz za rogiem.",
+    "example_en": "The nearest tram stop is right around the corner.",
+    "synonyms": ["stacja", "peron", "zjazd"]
+  },
+  {
+    "id": 15,
+    "word": "recepta",
+    "base_form": "recepta",
+    "category": "Daily Life & Home",
+    "meaning_en": "medical prescription",
+    "example_pl": "Lekarz wystawił mi e-receptę na leki przeciwbólowe.",
+    "example_en": "The doctor issued me an e-prescription for painkillers.",
+    "synonyms": ["zalecenie", "skierowanie", "zaświadczenie"]
+  }
+]

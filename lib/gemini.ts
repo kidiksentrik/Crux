@@ -11,7 +11,7 @@ interface TranslationResult {
 // Since listModels is not supported by the default client in this SDK version,
 // we resolve directly to models/gemini-3.5-flash which is the active model.
 async function getActiveModelName(): Promise<string> {
-  return 'models/gemini-2.0-flash';
+  return 'models/gemini-3.5-flash';
 }
 
 export async function translateAndGetSynonyms(
@@ -83,7 +83,7 @@ export interface VocabularyItem {
 export interface ArticleGenerationResult {
   article_text: string;
   vocabulary: VocabularyItem[];
-  errorType?: 'quota' | 'other';
+  errorType?: 'quota' | 'api_error' | 'other';
 }
 
 export async function generateB1ArticleWithVocab(
@@ -150,9 +150,21 @@ Provide the response in a strict JSON format matching this schema:
                     errorMsg.includes('429') || 
                     errorMsg.toLowerCase().includes('quota') || 
                     errorMsg.toLowerCase().includes('too many requests');
+    
+    const isApiError = status !== undefined ||
+                       errorMsg.includes('[GoogleGenerativeAI Error]') ||
+                       errorMsg.toLowerCase().includes('apikey') ||
+                       errorMsg.toLowerCase().includes('key') ||
+                       errorMsg.toLowerCase().includes('auth') ||
+                       errorMsg.toLowerCase().includes('billing');
+                       
+    let errorType: 'quota' | 'api_error' | 'other' = 'other';
+    if (isQuota) errorType = 'quota';
+    else if (isApiError) errorType = 'api_error';
+
     return {
       ...defaultResult,
-      errorType: isQuota ? 'quota' : 'other'
+      errorType
     };
   }
 }
