@@ -1,108 +1,75 @@
-# Handover Notes for Crux Language Learner App
+# Handover Notes for Crux B1 Exam Trainer
 
-Welcome, Antigravity Agent! This document contains all the critical context, architecture details, schemas, and recent updates needed to seamlessly continue development of the **Crux** application on this or another machine.
+Welcome, Antigravity Agent! This document contains all the critical context, architecture details, schemas, and recent updates needed to seamlessly continue development of the **Crux B1 Exam Trainer** application.
 
 ---
 
-## 📌 Project Overview
-**Crux** is a local news reading web application designed for B1-level language learners (currently target language: Polish `PL`, base language: English `EN`/Korean `KO`). It parses actual Google News RSS feeds, uses Gemini to rewrite articles into clean, learner-friendly Polish B1 summaries, and caches the vocabulary.
+## 📌 Project Overview & Strategic Pivot
+
+**Crux B1 Exam Trainer** is a lightweight, zero-cost, high-leverage Polish B1 Certification Study application designed specifically for long-term residency (Karta Pobytu / Pobyt Rezydenta Długoterminowego UE) exam preparation.
+
+### Why We Pivoted from News Crawling to Static B1 Trainer
+1. **0 API Costs & 0 Quota Lock**: The previous news crawler relied on daily Gemini API calls and Supabase databases. Supabase free-tier paused after 7 days of inactivity, and Gemini free-tier keys suffered from daily `429 limit: 0` blocks.
+2. **100% Client-Side & Zero Maintenance**: The app now runs 100% locally in the browser with static JSON vocabulary (`data/b1_vocab.json`), LocalStorage persistence, and Web Speech API for native Polish pronunciation. It costs **$0.00 forever** and will never break due to API changes or database pauses.
 
 ---
 
 ## 🛠️ Tech Stack & Key Files
-- **Framework**: Next.js (App Router, Tailwind CSS, TypeScript)
-- **Database**: Supabase (PostgreSQL)
-- **AI Integration**: Google Generative AI SDK (`@google/generative-ai`)
-- **Key Files**:
-  - [`lib/gemini.ts`](file:///c:/Users/drw847/.gemini/antigravity/scratch/crux/lib/gemini.ts): Handles Gemini translation and B1 article/vocab generation.
-  - [`app/api/cron/fetch-news/route.ts`](file:///c:/Users/drw847/.gemini/antigravity/scratch/crux/app/api/cron/fetch-news/route.ts): Background crawler that fetches RSS, generates B1 text, and pre-caches vocab.
-  - [`app/api/translate/route.ts`](file:///c:/Users/drw847/.gemini/antigravity/scratch/crux/app/api/translate/route.ts): Live translation endpoint (used as a fallback for missing vocabulary).
-  - [`app/page.tsx`](file:///c:/Users/drw847/.gemini/antigravity/scratch/crux/app/page.tsx): Main news feed dashboard.
-  - [`components/TranslationSheet.tsx`](file:///c:/Users/drw847/.gemini/antigravity/scratch/crux/components/TranslationSheet.tsx): Overlay bottom sheet displaying word translation, base form, and B1 synonyms.
-  - [`supabase_schema.sql`](file:///c:/Users/drw847/.gemini/antigravity/scratch/crux/supabase_schema.sql): PostgreSQL database schema.
+
+- **Framework**: Next.js 16 (App Router, Tailwind CSS, TypeScript)
+- **State & Storage**: Browser `localStorage` (No server or database required)
+- **Audio Engine**: Native Browser Web Speech API (`pl-PL`)
+- **Deployment Target**: Vercel (1-click free deployment) & Progressive Web App (PWA)
+
+### Key Files:
+- [`data/b1_vocab.json`](file:///c:/Users/drw847/.gemini/antigravity/scratch/crux/data/b1_vocab.json): Curated Polish B1 Exam dataset covering official categories (Administrative, Grammar Connectors, Verb Aspect Pairs, Daily Life, Work, Travel).
+- [`components/PokemonCard.tsx`](file:///c:/Users/drw847/.gemini/antigravity/scratch/crux/components/PokemonCard.tsx): 3D interactive Pokemon-style card with front/back flip animations, 3D mouse tilt parallax, holographic sheen shimmer, Polish TTS audio button, and self-assessment (`Forgot` vs `Got It!`).
+- [`components/DailyCardsTab.tsx`](file:///c:/Users/drw847/.gemini/antigravity/scratch/crux/components/DailyCardsTab.tsx): Tab 1 - Daily card deck with goal progress bar (`1/10 Cards`) and completion screen.
+- [`components/QuizTab.tsx`](file:///c:/Users/drw847/.gemini/antigravity/scratch/crux/components/QuizTab.tsx): Tab 2 - Interactive 4-choice verification quiz with instant score feedback, green glow / red error animations, and mastery status updates.
+- [`components/BinderTab.tsx`](file:///c:/Users/drw847/.gemini/antigravity/scratch/crux/components/BinderTab.tsx): Tab 3 - Pokedex Binder gallery with real-time search, category filter pills, card detail modals, and streak 🔥 stats.
+- [`components/SettingsTab.tsx`](file:///c:/Users/drw847/.gemini/antigravity/scratch/crux/components/SettingsTab.tsx): Tab 4 - Daily goal selector (5, 10, 20 words/day), TTS speech speed control (0.8x, 1.0x, 1.2x), and progress reset.
+- [`lib/storage.ts`](file:///c:/Users/drw847/.gemini/antigravity/scratch/crux/lib/storage.ts): Manages settings, word mastery status, and daily streak tracking in LocalStorage.
+- [`lib/types.ts`](file:///c:/Users/drw847/.gemini/antigravity/scratch/crux/lib/types.ts): TypeScript type definitions for B1 words, user mastery state, and settings.
+- [`app/page.tsx`](file:///c:/Users/drw847/.gemini/antigravity/scratch/crux/app/page.tsx): Main application wrapper with top header and glassmorphic bottom navigation bar.
+- [`app/layout.tsx`](file:///c:/Users/drw847/.gemini/antigravity/scratch/crux/app/layout.tsx): Clean root layout.
 
 ---
 
-## 🏗️ Core Architecture & Data Flow
+## 🏗️ Architecture & Spaced Repetition Data Flow
 
 ```mermaid
 graph TD
-    A[Google News RSS Feed] -->|Fetch Raw Snippets| B[fetch-news Crawler API]
-    B -->|B1 Rewrite + Extract All Words| C[Gemini 2.0 Flash]
-    C -->|B1 Article Text| D[(Supabase: articles)]
-    C -->|Bulk Vocabulary JSON| E[(Supabase: words)]
-    F[User reads article] -->|Clicks Word| G[Frontend Page]
-    G -->|Query Database Cache| E
-    E -->|Cache Hit: Instant Response| H[Show TranslationSheet 0.05s]
+    A[b1_vocab.json Dataset] --> B[Daily Cards Deck]
+    B -->|Tap to Flip 3D Card| C[Front: Polish Word / Back: EN Meaning + B1 Example]
+    C -->|Self Assessment| D[LocalStorage: crux_b1_word_states]
+    D -->|Marked Forgot| E[Prioritized in Review Stack & Next Deck]
+    D -->|Marked Got It!| F[Increments Daily Goal Progress & Mastery Count]
+    F -->|Tab 2| G[4-Choice Battle Quiz Verification]
+    G -->|Correct Answer| H[Mastered Status Upgraded]
 ```
 
-### 1. The Pre-Caching Strategy (Zero Latency)
-- **Old way**: Clicking a word sent a live API request to Gemini, taking 5 to 22 seconds per click (awful UX).
-- **New way**: During the daily crawl, Gemini generates the B1 text **and tokenizes/translates 100% of the unique words in the article in one single bulk request**.
-- These translations are bulk-upserted into the Supabase `words` table.
-- When the user clicks a word during reading, it is a **100% cache hit** loaded from Supabase instantly (under 0.05s) with no runtime Gemini calls.
-
-### 2. Database Schema
-- **`articles` Table**:
-  - `id` (UUID, PK)
-  - `title` (TEXT)
-  - `content` (TEXT - the B1 generated Polish text)
-  - `source` (TEXT)
-  - `target_lang` (TEXT, e.g., 'PL')
-  - `published_at` (TIMESTAMP)
-- **`words` Table**:
-  - `word` (TEXT, PK in unique constraint)
-  - `target_lang` (TEXT, PK in unique constraint)
-  - `meaning` (TEXT - context-aware Korean/English translation)
-  - `base_form` (TEXT - dictionary/lemma base form, e.g. "Listopada" -> "Listopad")
-  - `synonyms` (JSONB - array of 3 B1 synonyms in the target language)
-  - `search_count` (INTEGER)
-  - `last_searched_at` (TIMESTAMP)
+### Daily Streak Logic
+- `recordTodayActivity()` checks the current date (`YYYY-MM-DD`).
+- If active yesterday and today, streak increments by +1.
+- If inactive for 2+ days, streak resets to 1.
+- Saved in LocalStorage under key `crux_b1_user_streak`.
 
 ---
 
-## 🔧 Critical Bug Fixes & Refactoring Completed
+## 🚀 How to Run & Deploy
 
-### 1. TypeError on Model Resolution
-- **Issue**: `genAI.listModels` is not a function in the default client SDK, causing server crashes during fallback.
-- **Fix**: Refactored `getActiveModelName()` in `lib/gemini.ts` to return `'models/gemini-2.0-flash'` directly.
-
-### 2. Gemini API Quota Management (429 Rate Limit Cooldown)
-- **Issue**: The free-tier preview models (like `gemini-3.5-flash`) have extremely strict daily limits (20 requests/day).
-- **Fix**: Switched default model to **`gemini-2.0-flash`**, which has the standard free-tier limit of **1,500 requests per day** and **15 requests per minute (RPM)**.
-- **Spamming Prevention**: Added a **1.5-second delay** between article generations in the crawl loop.
-- **Loop Breakout**: Previously, if Gemini threw a 429 quota block, the crawler loop logged it but called `continue`, spamming Gemini 30 times in a row and triggering a 60-second cooldown ban. We updated the crawler loop to **break/exit immediately** upon detecting a quota error.
-- **Error Bubbling**: When a quota block occurs, the backend returns a clean **HTTP 429** response. The frontend page captures this status code and triggers a clear, descriptive browser alert modal instead of silently failing.
-
----
-
-## 🚀 How to Run & Verify
-
-1. **Environment Variables** (Defined in `.env.local` - do NOT commit):
-   ```env
-   NEXT_PUBLIC_SUPABASE_URL=...
-   NEXT_PUBLIC_SUPABASE_ANON_KEY=...
-   GEMINI_API_KEY=...
-   ```
-2. **Start Dev Server**:
+1. **Local Development**:
    ```bash
    npm run dev
    ```
-3. **Reset Database Cache (for testing)**:
-   In Supabase SQL Editor:
-   ```sql
-   TRUNCATE TABLE articles CASCADE;
-   TRUNCATE TABLE words CASCADE;
+   Open `http://localhost:3000`.
+
+2. **Lint Verification**:
+   ```bash
+   npm run lint
    ```
-4. **Trigger Crawl**:
-   - Go to `http://localhost:3000`.
-   - Click **`FETCH DAILY LOCAL NEWS`**.
-   - If blocked by 1-minute rate limits, you will see a detailed error popup. Otherwise, it will fetch, rewrite, and pre-cache 100% of the words.
-   - Click any word in the articles to check the instant 0.05s popup sheet response.
 
----
-
-## 🔮 Next Steps for the Next Agent
-- [ ] **GitHub Remote Config**: Initialize a remote repository (e.g. `git remote add origin <url>`) and push the initialized git commits.
-- [ ] **Word Inflection Matching Enhancement**: If a user clicks a word that has punctuation attached (e.g. `remontu.`), the current cleaning regex handles standard cases, but keep an eye on edge cases for inflected word matching.
-- [ ] **Vercel Production Deployment**: Deploy the Next.js app to Vercel and configure the environment secrets. Set up a Vercel Cron Job to call `/api/cron/fetch-news` daily.
+3. **Deploy to Vercel (100% Free)**:
+   - Git repository is linked to `https://github.com/kidiksentrik/Crux.git`.
+   - In Vercel, import `kidiksentrik/Crux` and click **Deploy**.
+   - Open generated URL on iOS Safari or Android Chrome and select **"Add to Home Screen"** to install as a native PWA app.
