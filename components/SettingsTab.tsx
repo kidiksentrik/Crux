@@ -1,7 +1,8 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { UserSettings } from '@/lib/types';
+import { exportUserDataCode, importUserDataCode } from '@/lib/storage';
 
 interface SettingsTabProps {
   settings: UserSettings;
@@ -9,12 +10,46 @@ interface SettingsTabProps {
 }
 
 export default function SettingsTab({ settings, onUpdateSettings }: SettingsTabProps) {
+  const [syncCode, setSyncCode] = useState<string>('');
+  const [importCodeInput, setImportCodeInput] = useState<string>('');
+  const [copiedMessage, setCopiedMessage] = useState(false);
+  const [syncSuccess, setSyncSuccess] = useState(false);
+  const [syncError, setSyncError] = useState(false);
+
   const handleDailyGoal = (goal: number) => {
     onUpdateSettings({ dailyGoal: goal });
   };
 
   const handleTTSSpeed = (speed: number) => {
     onUpdateSettings({ ttsSpeed: speed });
+  };
+
+  const handleGenerateSyncCode = () => {
+    const code = exportUserDataCode();
+    setSyncCode(code);
+
+    if (navigator.clipboard && code) {
+      navigator.clipboard.writeText(code);
+      setCopiedMessage(true);
+      setTimeout(() => setCopiedMessage(false), 3000);
+    }
+  };
+
+  const handleImportSyncCode = () => {
+    setSyncError(false);
+    setSyncSuccess(false);
+
+    if (!importCodeInput.trim()) return;
+
+    const success = importUserDataCode(importCodeInput);
+    if (success) {
+      setSyncSuccess(true);
+      setTimeout(() => {
+        if (typeof window !== 'undefined') window.location.reload();
+      }, 1000);
+    } else {
+      setSyncError(true);
+    }
   };
 
   const handleClearData = () => {
@@ -27,16 +62,16 @@ export default function SettingsTab({ settings, onUpdateSettings }: SettingsTabP
   };
 
   return (
-    <div className="flex flex-col min-h-[calc(100vh-140px)] p-4 max-w-lg mx-auto pb-24">
-      <div className="card-glass p-6 rounded-3xl mb-6">
+    <div className="flex flex-col min-h-[calc(100vh-140px)] p-4 max-w-lg mx-auto pb-24 space-y-4">
+      <div className="card-glass p-6 rounded-3xl">
         <h2 className="text-xl font-extrabold text-white mb-1 flex items-center gap-2">
           <span>⚙️</span> Study Settings
         </h2>
-        <p className="text-xs text-gray-400">Tailor your daily Polish B1 exam prep routine.</p>
+        <p className="text-xs text-gray-400">Tailor your daily Polish B1 exam prep routine & sync progress.</p>
       </div>
 
       {/* Daily Goal Option */}
-      <div className="card-glass p-6 rounded-3xl mb-4 border border-white/10">
+      <div className="card-glass p-6 rounded-3xl border border-white/10">
         <h3 className="text-sm font-bold text-gray-200 mb-1">Daily Word Goal</h3>
         <p className="text-xs text-gray-400 mb-4">Choose how many B1 Pokemon cards to study each day.</p>
 
@@ -61,7 +96,7 @@ export default function SettingsTab({ settings, onUpdateSettings }: SettingsTabP
       </div>
 
       {/* Audio Pronunciation Speed */}
-      <div className="card-glass p-6 rounded-3xl mb-4 border border-white/10">
+      <div className="card-glass p-6 rounded-3xl border border-white/10">
         <h3 className="text-sm font-bold text-gray-200 mb-1">TTS Voice Speed</h3>
         <p className="text-xs text-gray-400 mb-4">Adjust the Polish pronunciation playback speed.</p>
 
@@ -82,11 +117,81 @@ export default function SettingsTab({ settings, onUpdateSettings }: SettingsTabP
         </div>
       </div>
 
-      {/* Info & Data Management */}
-      <div className="card-glass p-6 rounded-3xl mb-6 border border-white/10 space-y-4">
-        <div>
-          <h3 className="text-xs font-bold text-gray-300 uppercase tracking-wider mb-1">Architecture</h3>
-          <p className="text-xs text-emerald-400 font-medium">100% Free & Offline-Ready (0 API / 0 DB Calls)</p>
+      {/* Cross-Device Data Sync Code (Bidirectional PC <-> Mobile) */}
+      <div className="card-glass p-6 rounded-3xl border border-blue-500/30">
+        <div className="flex items-center gap-2 mb-1">
+          <span className="text-lg">📱⚡💻</span>
+          <h3 className="text-sm font-bold text-white">Cross-Device Data Sync</h3>
+        </div>
+        <p className="text-xs text-gray-400 mb-4">
+          Transfer your progress (Cards Mastered, Daily Goal & Streak 🔥) bidirectionally between Mobile and PC without a database!
+        </p>
+
+        {/* Export Section */}
+        <div className="mb-4 pb-4 border-b border-white/10 space-y-2">
+          <p className="text-xs font-bold text-amber-400 uppercase tracking-wider">Step 1: Export Progress (Send)</p>
+          <button
+            onClick={handleGenerateSyncCode}
+            className="w-full py-3 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 rounded-xl text-xs font-extrabold transition-all flex items-center justify-center gap-2"
+          >
+            <span>📋 Generate & Copy Sync Code</span>
+          </button>
+
+          {copiedMessage && (
+            <p className="text-[11px] text-emerald-400 font-bold text-center">
+              ✓ Sync code copied to clipboard! Paste it on your other device.
+            </p>
+          )}
+
+          {syncCode && (
+            <div className="mt-2">
+              <textarea
+                readOnly
+                value={syncCode}
+                rows={2}
+                className="w-full p-2.5 bg-black/50 border border-white/10 rounded-xl text-[11px] font-mono text-gray-300 select-all focus:outline-none"
+              />
+            </div>
+          )}
+        </div>
+
+        {/* Import Section */}
+        <div className="space-y-2">
+          <p className="text-xs font-bold text-emerald-400 uppercase tracking-wider">Step 2: Import Progress (Receive)</p>
+          <input
+            type="text"
+            value={importCodeInput}
+            onChange={(e) => setImportCodeInput(e.target.value)}
+            placeholder="Paste Sync Code here..."
+            className="w-full p-3 bg-gray-900 border border-white/10 rounded-xl text-xs font-mono text-white placeholder:text-gray-500 focus:outline-none focus:border-emerald-500/50"
+          />
+          <button
+            onClick={handleImportSyncCode}
+            className="w-full py-3 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 rounded-xl text-xs font-extrabold transition-all flex items-center justify-center gap-2"
+          >
+            <span>🔄 Sync & Restore Progress</span>
+          </button>
+
+          {syncSuccess && (
+            <p className="text-[11px] text-emerald-400 font-bold text-center">
+              🎉 Progress synced successfully! Reloading...
+            </p>
+          )}
+          {syncError && (
+            <p className="text-[11px] text-red-400 font-bold text-center">
+              ✕ Invalid Sync Code. Please check the copied code.
+            </p>
+          )}
+        </div>
+      </div>
+
+      {/* Data Reset */}
+      <div className="card-glass p-6 rounded-3xl border border-white/10">
+        <div className="flex justify-between items-center mb-2">
+          <div>
+            <h3 className="text-xs font-bold text-gray-300 uppercase tracking-wider">Architecture</h3>
+            <p className="text-xs text-emerald-400 font-medium">100% Free & Offline-Ready (0 API / 0 DB Calls)</p>
+          </div>
         </div>
 
         <div className="pt-3 border-t border-white/10">

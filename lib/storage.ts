@@ -113,3 +113,45 @@ export function recordTodayActivity(): UserStreak {
 export function getTodayString(): string {
   return new Date().toISOString().split('T')[0];
 }
+
+export function exportUserDataCode(): string {
+  if (typeof window === 'undefined') return '';
+  const settings = getStoredSettings();
+  const wordStates = getStoredWordStates();
+  const streak = getStoredStreak();
+
+  const payload = {
+    v: 1,
+    settings,
+    wordStates,
+    streak,
+    exportedAt: new Date().toISOString(),
+  };
+
+  try {
+    const jsonStr = JSON.stringify(payload);
+    return btoa(encodeURIComponent(jsonStr));
+  } catch (e) {
+    console.error('Failed to export sync code:', e);
+    return '';
+  }
+}
+
+export function importUserDataCode(codeString: string): boolean {
+  if (typeof window === 'undefined' || !codeString) return false;
+  try {
+    const jsonStr = decodeURIComponent(atob(codeString.trim()));
+    const payload = JSON.parse(jsonStr);
+
+    if (payload && payload.settings && payload.wordStates && payload.streak) {
+      localStorage.setItem(SETTINGS_KEY, JSON.stringify(payload.settings));
+      localStorage.setItem(WORD_STATES_KEY, JSON.stringify(payload.wordStates));
+      localStorage.setItem(STREAK_KEY, JSON.stringify(payload.streak));
+      return true;
+    }
+    return false;
+  } catch (e) {
+    console.error('Failed to import sync code:', e);
+    return false;
+  }
+}
