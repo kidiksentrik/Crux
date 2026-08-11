@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { B1Word } from '@/lib/types';
 import PokemonCard from './PokemonCard';
-import { updateWordStatus, recordTodayActivity } from '@/lib/storage';
+import { updateWordStatus, recordTodayActivity, getStoredWordStates, getTodayString } from '@/lib/storage';
 
 interface DailyCardsTabProps {
   allWords: B1Word[];
@@ -13,13 +13,34 @@ interface DailyCardsTabProps {
 }
 
 export default function DailyCardsTab({ allWords, dailyGoal, ttsSpeed, onGoToQuiz }: DailyCardsTabProps) {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [completedCount, setCompletedCount] = useState(0);
-  const [, setLearningCount] = useState(0);
-
   const deck = React.useMemo(() => {
     return allWords.slice(0, dailyGoal);
   }, [allWords, dailyGoal]);
+
+  const { initialReviewed, initialMastered } = React.useMemo(() => {
+    if (typeof window === 'undefined') return { initialReviewed: 0, initialMastered: 0 };
+    const states = getStoredWordStates();
+    const today = getTodayString();
+
+    let reviewed = 0;
+    let mastered = 0;
+
+    deck.forEach((word) => {
+      const st = states[word.id];
+      if (st && st.lastReviewedAt && st.lastReviewedAt.startsWith(today)) {
+        reviewed++;
+        if (st.status === 'mastered') {
+          mastered++;
+        }
+      }
+    });
+
+    return { initialReviewed: reviewed, initialMastered: mastered };
+  }, [deck]);
+
+  const [currentIndex, setCurrentIndex] = useState(initialReviewed);
+  const [completedCount, setCompletedCount] = useState(initialMastered);
+  const [, setLearningCount] = useState(0);
 
   const handleSelfAssess = (status: 'learning' | 'mastered') => {
     const currentWord = deck[currentIndex];
