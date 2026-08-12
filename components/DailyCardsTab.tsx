@@ -32,8 +32,13 @@ export default function DailyCardsTab({ allWords, dailyGoal, ttsSpeed, onGoToQui
       }
     });
 
+    // Pure pseudo-random shuffle based on word ID to satisfy React 19 purity rules
+    const getHash = (id: number) => Math.sin(id * 12.9898 + 78.233);
+    const shuffledUnseen = [...unseenWords].sort((a, b) => getHash(a.id) - getHash(b.id));
+    const shuffledReview = [...reviewWords].sort((a, b) => getHash(a.id) - getHash(b.id));
+
     // Build today's deck: review words first, then fresh unseen B1 words, then mastered if needed
-    const combined = [...reviewWords, ...unseenWords, ...masteredWords];
+    const combined = [...shuffledReview, ...shuffledUnseen, ...masteredWords];
     return combined.slice(0, dailyGoal);
   }, [allWords, dailyGoal]);
 
