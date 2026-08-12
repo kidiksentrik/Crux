@@ -14,7 +14,27 @@ interface DailyCardsTabProps {
 
 export default function DailyCardsTab({ allWords, dailyGoal, ttsSpeed, onGoToQuiz }: DailyCardsTabProps) {
   const deck = React.useMemo(() => {
-    return allWords.slice(0, dailyGoal);
+    if (typeof window === 'undefined') return allWords.slice(0, dailyGoal);
+    const states = getStoredWordStates();
+
+    const reviewWords: B1Word[] = [];
+    const unseenWords: B1Word[] = [];
+    const masteredWords: B1Word[] = [];
+
+    allWords.forEach((word) => {
+      const st = states[word.id];
+      if (!st) {
+        unseenWords.push(word);
+      } else if (st.status === 'learning') {
+        reviewWords.push(word);
+      } else {
+        masteredWords.push(word);
+      }
+    });
+
+    // Build today's deck: review words first, then fresh unseen B1 words, then mastered if needed
+    const combined = [...reviewWords, ...unseenWords, ...masteredWords];
+    return combined.slice(0, dailyGoal);
   }, [allWords, dailyGoal]);
 
   const { initialReviewed, initialMastered } = React.useMemo(() => {

@@ -27,7 +27,7 @@
     "meaning_en": "to buy, purchase (Imperfective / Perfective)",
     "example_pl": "Zazwyczaj kupuję warzywa na rynku, ale wczoraj kupiłem je w sklepie.",
     "example_en": "I usually buy vegetables at the market, but yesterday I bought them in a shop.",
-    "synonyms": ["Nabywać", "Zamawiać", "Płacić"]
+    "synonyms": ["nabywać", "zamawiać", "płacić"]
   },
   {
     "id": 4,
@@ -51,102 +51,252 @@
   },
   {
     "id": 6,
-    "word": "urząd",
-    "base_form": "urząd",
+    "word": "zameldowanie",
+    "base_form": "zameldowanie",
     "category": "Official / Administrative",
-    "meaning_en": "government office, municipal institution",
-    "example_pl": "Urząd do Spraw Cudzoziemców znajduje się w centrum miasta.",
-    "example_en": "The Office for Foreigners is located in the city center.",
-    "synonyms": ["instytucja", "placówka", "biuro"]
+    "meaning_en": "address registration, official residence check-in",
+    "example_pl": "Do uzyskania karty pobytu potrzebujesz zaświadczenia o zameldowaniu.",
+    "example_en": "To obtain a residence card, you need a certificate of address registration.",
+    "synonyms": ["rejestracja", "meldunek", "zgłoszenie pobytu"]
   },
   {
     "id": 7,
-    "word": "robić",
-    "base_form": "robić / zrobić",
-    "category": "Verb Aspect Pairs",
-    "meaning_en": "to do, make (Imperfective / Perfective)",
-    "example_pl": "Co robisz dzisiaj wieczorem? Muszę zrobić zakupy.",
-    "example_en": "What are you doing tonight? I have to do the shopping.",
-    "synonyms": ["wykonywać", "tworzyć", "przygotowywać"]
-  },
-  {
-    "id": 8,
     "word": "chociaż",
     "base_form": "chociaż",
     "category": "Grammar Connectors",
     "meaning_en": "although, even if",
-    "example_pl": "Lubię mieszkać w Krakowie, chociaż zima bywa tutaj zimna.",
-    "example_en": "I like living in Krakow, although winter here can be cold.",
-    "synonyms": ["mimo że", "wprawdzie", "aczkolwiek"]
+    "example_pl": "Chociaż mieszkam w Polsce od roku, nadal uczę się gramatyki.",
+    "example_en": "Although I have lived in Poland for a year, I am still learning grammar.",
+    "synonyms": ["mimo że", "choć", "pomimo że"]
   },
   {
-    "id": 9,
-    "word": "decyzja",
-    "base_form": "decyzja",
-    "category": "Official / Administrative",
-    "meaning_en": "official decision, ruling",
-    "example_pl": "Czekam na pozytywną decyzję w sprawie mojego pobytu.",
-    "example_en": "I am waiting for a positive decision regarding my residence status.",
-    "synonyms": ["postanowienie", "orzeczenie", "rozstrzygnięcie"]
-  },
-  {
-    "id": 10,
+    "id": 8,
     "word": "pisać",
     "base_form": "pisać / napisać",
     "category": "Verb Aspect Pairs",
-    "meaning_en": "to write (Imperfective / Perfective)",
-    "example_pl": "Piszę e-mail do szefa, aczkolwiek napisałem już raport.",
-    "example_en": "I am writing an email to my boss, though I have already written the report.",
-    "synonyms": ["notować", "redagować", "sporządzać"]
+    "meaning_en": "to write / to write down (Imperfective / Perfective)",
+    "example_pl": "Pisałem list przez godzinę, aż w końcu napisałem całą stronę.",
+    "example_en": "I was writing a letter for an hour until I finally wrote a full page.",
+    "synonyms": ["notować", "tworzyć", "redagować"]
+  },
+  {
+    "id": 9,
+    "word": "zezwolenie",
+    "base_form": "zezwolenie",
+    "category": "Official / Administrative",
+    "meaning_en": "permit, authorization, official license",
+    "example_pl": "Dostałem zezwolenie na pracę na czas nieokreślony.",
+    "example_en": "I received a work permit for an indefinite period.",
+    "synonyms": ["zgoda", "pozwolenie", "licencja"]
+  },
+  {
+    "id": 10,
+    "word": "podczas gdy",
+    "base_form": "podczas gdy",
+    "category": "Grammar Connectors",
+    "meaning_en": "while, whereas",
+    "example_pl": "Ja uczyłem się słówek B1, podczas gdy mój brat oglądał telewizję.",
+    "example_en": "I was studying B1 words, while my brother was watching TV.",
+    "synonyms": ["w czasie gdy", "kiedy", "w trakcie gdy"]
   },
   {
     "id": 11,
-    "word": "mieszkanie",
-    "base_form": "mieszkanie",
+    "word": "czynsz",
+    "base_form": "czynsz",
     "category": "Daily Life & Home",
-    "meaning_en": "apartment, flat, residence",
-    "example_pl": "Wynajmuję dwupokojowe mieszkanie w dzielnicy Grzegórzki.",
-    "example_en": "I rent a two-room apartment in the Grzegórzki district.",
-    "synonyms": ["lokal", "dom", "kwatera"]
+    "meaning_en": "rent, utility maintenance fee",
+    "example_pl": "Co miesiąc płacę czynsz za mieszkanie do dziesiątego dnia miesiąca.",
+    "example_en": "Every month I pay rent for the apartment by the tenth day of the month.",
+    "synonyms": ["opłata", "wynajem", "należność"]
   },
   {
     "id": 12,
-    "word": "stanowisko",
-    "base_form": "stanowisko",
+    "word": "wynagrodzenie",
+    "base_form": "wynagrodzenie",
     "category": "Work & Education",
-    "meaning_en": "job position, post",
-    "example_pl": "Pracuję na stanowisku inżyniera oprogramowania.",
-    "example_en": "I work in the position of a software engineer.",
-    "synonyms": ["posada", "rola", "funkcja"]
+    "meaning_en": "salary, remuneration, pay",
+    "example_pl": "Wynagrodzenie wpływa na moje konto bankowe pierwszego dnia miesiąca.",
+    "example_en": "The salary arrives in my bank account on the first day of the month.",
+    "synonyms": ["pensja", "płaca", "zarobki"]
   },
   {
     "id": 13,
-    "word": "jednak",
-    "base_form": "jednak",
-    "category": "Grammar Connectors",
-    "meaning_en": "however, yet, nevertheless",
-    "example_pl": "Płynnie mówię po angielsku, jednak chcę opanować język polski na poziomie B1.",
-    "example_en": "I speak English fluently, however I want to master Polish at the B1 level.",
-    "synonyms": ["jednakże", "wzajemnie", "zresztą"]
+    "word": "umowa o pracę",
+    "base_form": "umowa o pracę",
+    "category": "Work & Education",
+    "meaning_en": "employment contract",
+    "example_pl": "Podpisałem umowę o pracę na czas nieokreślony z nową firmą.",
+    "example_en": "I signed an employment contract for an indefinite period with a new company.",
+    "synonyms": ["kontrakt", "porozumienie", "zobowiązanie"]
   },
   {
     "id": 14,
-    "word": "przystanek",
-    "base_form": "przystanek",
+    "word": "przesiadka",
+    "base_form": "przesiadka",
     "category": "Travel & City",
-    "meaning_en": "bus/tram stop",
-    "example_pl": "Najbliższy przystanek tramwajowy znajduje się zaraz za rogiem.",
-    "example_en": "The nearest tram stop is right around the corner.",
-    "synonyms": ["stacja", "peron", "zjazd"]
+    "meaning_en": "transfer, connection (train/bus/flight)",
+    "example_pl": "Jadę do Krakowa z jedną przesiadką w Katowicach.",
+    "example_en": "I am going to Krakow with one transfer in Katowice.",
+    "synonyms": ["zmiana pociągu", "połączenie", "tranzyt"]
   },
   {
     "id": 15,
+    "word": "opłata",
+    "base_form": "opłata",
+    "category": "Official / Administrative",
+    "meaning_en": "official fee, charge, payment",
+    "example_pl": "Opłata skarbowa za wniosek wynosi czterysta czterdzieści złotych.",
+    "example_en": "The stamp duty fee for the application is 440 PLN.",
+    "synonyms": ["koszt", "taksa", "należność"]
+  },
+  {
+    "id": 16,
+    "word": "zamiast",
+    "base_form": "zamiast",
+    "category": "Grammar Connectors",
+    "meaning_en": "instead of",
+    "example_pl": "Zamiast jechać samochodem, poszedłem na piechotę.",
+    "example_en": "Instead of driving a car, I went on foot.",
+    "synonyms": ["w zamian za", "w miejsce"]
+  },
+  {
+    "id": 17,
+    "word": "mówić",
+    "base_form": "mówić / powiedzieć",
+    "category": "Verb Aspect Pairs",
+    "meaning_en": "to speak / to say, tell (Imperfective / Perfective)",
+    "example_pl": "Mówiłem powoli, żeby urzędnik wszystko zrozumiał, i w końcu powiedziałem prawdę.",
+    "example_en": "I was speaking slowly so the clerk would understand everything, and finally I told the truth.",
+    "synonyms": ["rozmawiać", "opowiadać", "twierdzić"]
+  },
+  {
+    "id": 18,
+    "word": "kaucja",
+    "base_form": "kaucja",
+    "category": "Daily Life & Home",
+    "meaning_en": "security deposit (for apartment rental)",
+    "example_pl": "Właściciel oddał mi całą kaucję po zakończeniu umowy wynajmu.",
+    "example_en": "The landlord returned my full security deposit after the rental contract ended.",
+    "synonyms": ["zabezpieczenie", "zastaw", "gwarancja"]
+  },
+  {
+    "id": 19,
+    "word": "rozmowa kwalifikacyjna",
+    "base_form": "rozmowa kwalifikacyjna",
+    "category": "Work & Education",
+    "meaning_en": "job interview",
+    "example_pl": "Jutro mam rozmowę kwalifikacyjną na stanowisko programisty.",
+    "example_en": "Tomorrow I have a job interview for a developer position.",
+    "synonyms": ["rekrutacja", "wywiad", "spotkanie rekrutacyjne"]
+  },
+  {
+    "id": 20,
+    "word": "bilet okresowy",
+    "base_form": "bilet okresowy",
+    "category": "Travel & City",
+    "meaning_en": "season ticket, monthly transit pass",
+    "example_pl": "Kupiłem bilet okresowy na trzymiesiące na komunikację miejską.",
+    "example_en": "I bought a 3-month season pass for public transport.",
+    "synonyms": ["bilet miesięczny", "karta miejska", "migawka"]
+  },
+  {
+    "id": 21,
+    "word": "zaświadczenie",
+    "base_form": "zaświadczenie",
+    "category": "Official / Administrative",
+    "meaning_en": "official certificate, attestation",
+    "example_pl": "Potrzebuję zaświadczenia o dochodach z urzędu skarbowego.",
+    "example_en": "I need an income certificate from the tax office.",
+    "synonyms": ["certyfikat", "dokument", "potwierdzenie"]
+  },
+  {
+    "id": 22,
+    "word": "oprócz",
+    "base_form": "oprócz",
+    "category": "Grammar Connectors",
+    "meaning_en": "besides, except for, in addition to",
+    "example_pl": "Oprócz polskiego znam też język angielski i koreański.",
+    "example_en": "Besides Polish, I also know English and Korean.",
+    "synonyms": ["poza", "z wyjątkiem", "mimo"]
+  },
+  {
+    "id": 23,
+    "word": "robić",
+    "base_form": "robić / zrobić",
+    "category": "Verb Aspect Pairs",
+    "meaning_en": "to do, make / to finish making (Imperfective / Perfective)",
+    "example_pl": "Robiłem obiad przez pół godziny i w końcu zrobiłem pyszny zupę.",
+    "example_en": "I was making dinner for half an hour and finally made delicious soup.",
+    "synonyms": ["wykonywać", "tworzyć", "przygotowywać"]
+  },
+  {
+    "id": 24,
+    "word": "właściciel",
+    "base_form": "właściciel",
+    "category": "Daily Life & Home",
+    "meaning_en": "owner, landlord",
+    "example_pl": "Właściciel mieszkania przychodzi raz w roku sprawdzić stan liczników.",
+    "example_en": "The apartment owner comes once a year to check the meter readings.",
+    "synonyms": ["gospodarz", "wynajmujący", "posiadacz"]
+  },
+  {
+    "id": 25,
+    "word": "urlop",
+    "base_form": "urlop",
+    "category": "Work & Education",
+    "meaning_en": "vacation, paid time off, leave",
+    "example_pl": "Wezmę dwutygodniowy urlop wypoczynkowy w sierpniu.",
+    "example_en": "I will take a two-week paid vacation in August.",
+    "synonyms": ["wakacje", "wypoczynek", "przerwa"]
+  },
+  {
+    "id": 26,
+    "word": "rozkład jazdy",
+    "base_form": "rozkład jazdy",
+    "category": "Travel & City",
+    "meaning_en": "timetable, transit schedule",
+    "example_pl": "Sprawdziłem rozkład jazdy autobusów w aplikacji mobilnej.",
+    "example_en": "I checked the bus timetable in the mobile app.",
+    "synonyms": ["harmonogram", "plan odjazdów", "tabela"]
+  },
+  {
+    "id": 27,
+    "word": "tożsamość",
+    "base_form": "tożsamość",
+    "category": "Official / Administrative",
+    "meaning_en": "identity, official ID details",
+    "example_pl": "Musisz pokazać dokument potwierdzający tożsamość na granicy.",
+    "example_en": "You must show an identity document at the border.",
+    "synonyms": ["dane osobowe", "dowód", "identyfikator"]
+  },
+  {
+    "id": 28,
+    "word": "jednakże",
+    "base_form": "jednakże",
+    "category": "Grammar Connectors",
+    "meaning_en": "however, nevertheless",
+    "example_pl": "Pogoda była deszczowa, jednakże zdecydowaliśmy się na spacer.",
+    "example_en": "The weather was rainy, however we decided to go for a walk.",
+    "synonyms": ["niemniej jednak", "jednak", "wstęp"]
+  },
+  {
+    "id": 29,
+    "word": "brać",
+    "base_form": "brać / wziąć",
+    "category": "Verb Aspect Pairs",
+    "meaning_en": "to take / to take hold of (Imperfective / Perfective)",
+    "example_pl": "Zawsze biorę parasol, kiedy pada, i dzisiaj też wziąłem ze sobą.",
+    "example_en": "I always take an umbrella when it rains, and today I took it with me too.",
+    "synonyms": ["zabierać", "chwytać", "przyjmować"]
+  },
+  {
+    "id": 30,
     "word": "recepta",
     "base_form": "recepta",
     "category": "Daily Life & Home",
     "meaning_en": "medical prescription",
     "example_pl": "Lekarz wystawił mi e-receptę na leki przeciwbólowe.",
-    "example_en": "The doctor issued me an e-prescription for painkillers.",
-    "synonyms": ["zalecenie", "skierowanie", "zaświadczenie"]
+    "example_en": "The doctor issued an e-prescription for painkillers.",
+    "synonyms": ["zlecenia lekarskie", "przepis na lek"]
   }
 ]
