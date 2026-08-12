@@ -16,17 +16,21 @@ export default function DailyCardsTab({ allWords, dailyGoal, ttsSpeed, onGoToQui
   const deck = React.useMemo(() => {
     if (typeof window === 'undefined') return allWords.slice(0, dailyGoal);
     const states = getStoredWordStates();
+    const today = getTodayString();
 
+    const todayReviewedWords: B1Word[] = [];
     const reviewWords: B1Word[] = [];
     const unseenWords: B1Word[] = [];
     const masteredWords: B1Word[] = [];
 
     allWords.forEach((word) => {
       const st = states[word.id];
-      if (!st) {
-        unseenWords.push(word);
-      } else if (st.status === 'learning') {
+      if (st && st.lastReviewedAt && st.lastReviewedAt.startsWith(today)) {
+        todayReviewedWords.push(word);
+      } else if (st && st.status === 'learning') {
         reviewWords.push(word);
+      } else if (!st) {
+        unseenWords.push(word);
       } else {
         masteredWords.push(word);
       }
@@ -37,8 +41,8 @@ export default function DailyCardsTab({ allWords, dailyGoal, ttsSpeed, onGoToQui
     const shuffledUnseen = [...unseenWords].sort((a, b) => getHash(a.id) - getHash(b.id));
     const shuffledReview = [...reviewWords].sort((a, b) => getHash(a.id) - getHash(b.id));
 
-    // Build today's deck: review words first, then fresh unseen B1 words, then mastered if needed
-    const combined = [...shuffledReview, ...shuffledUnseen, ...masteredWords];
+    // Build today's deck: today's reviewed cards first, then review words, then fresh unseen B1 words, then mastered
+    const combined = [...todayReviewedWords, ...shuffledReview, ...shuffledUnseen, ...masteredWords];
     return combined.slice(0, dailyGoal);
   }, [allWords, dailyGoal]);
 
